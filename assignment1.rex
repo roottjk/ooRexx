@@ -1,24 +1,38 @@
-/* Getting input from user */
-SAY "Geben Sie Ihr Keyword ein: "
-PARSE PULL keyword
-SAY "In welcher Datei moechten Sie nach dem Keyword suchen?"
-PULL file
+secretNumber = RANDOM(100)
+tries = 5
+SAY ""
+SAY ""
+SAY "Bet you wont guess the number in my silicon brain! Hint: Its between 0 and 100"
+SAY "You have 5 tries till i 'del *.*' myself. Your turn to guess!"
 
-/* Defining some variables */
-lengthKeyword = length(keyword)
-cnt = 0
+DO WHILE (tries > 0)
+    PULL guess
+    IF (guess = secretNumber) THEN DO
+        SAY "WOW Congrats! You guessed the right number. Its indeed " guess
+        RETURN
+    END
 
-/* Search Algorithm */
-DO WHILE lines(file) > 0
-   line_str = linein(file)
-   positionKey = pos(keyword, line_str)
+    ELSE IF (guess > secretNumber & tries > 0)  THEN DO
+        tries -= 1
+        SAY ""
+        SAY "Na, you're wrong. You have" tries "tries left. HINT: The number I am thinking of is smaller than your guess. Take another shot!"
+    END
 
-      DO WHILE positionKey > 0
-         line_str = delstr(line_str, positionKey, lengthKeyword)
-         cnt += 1
-         positionKey = pos(keyword, line_str)
-      END
+    ELSE IF (guess < secretNumber & tries > 0)  THEN DO
+        tries -= 1
+        SAY ""
+        SAY "Na, you're wrong. You have" tries " tries left. HINT: The number I am thinking of is bigger than your guess. Take another shot!"
+    END
+END
+    
+
+
+IF (tries = 0) THEN DO
+    SAY ""
+    SAY "GAME OVER! You have no tries left. The number I was thinking of was:"
+    SAY ""
+    SAY secretNumber
+    SAY ""
+    SAY "Better luck next time."
 END
 
-/* Final output with number of found keywords */
-SAY "Das Dokument wurde durchsucht. Das gesuchte Keyword wurde insgesamt" cnt "mal gefunden."
