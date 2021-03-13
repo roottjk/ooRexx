@@ -3,7 +3,7 @@ tries = 5
 SAY ""
 SAY ""
 SAY "Bet you wont guess the number in my silicon brain! Hint: Its between 0 and 100"
-SAY "You have 3 tries till i 'del *.*' myself. Your turn to guess!"
+SAY "You have 5 tries till i 'del *.*' myself. Your turn to guess!"
 
 DO WHILE (tries > 0)
     PULL guess
